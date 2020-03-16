@@ -1,0 +1,25 @@
+package corsoJava_01;
+
+import java.util.Scanner;
+
+public class undicesimoEsercizio {
+/* Scrivere un programma che chiede all'utente l'inserimento di una parola. Successivamente stampare la parola in
+diagonale dall’alto verso il basso.
+Di una stringa è possibile estrarre l’i-esimo carattere utilizzando il metodo String.charAt(i), con base 0; ad esempio:
+String testo = “ciao”;
+testo.charAt(2) restituisce il carattere “a” */
+	public static void main(String[] args) {
+		Scanner in=new Scanner(System.in);
+		System.out.println("inserisci la parola ");
+		String parola=in.nextLine();
+		in.close();
+		for(int i=0;i<parola.length();i++) {
+			for(int x=0;x<i;x++) {
+				System.out.print(" ");
+			}
+			System.out.print(parola.charAt(i));
+			System.out.println();
+		}
+	}
+
+}
