@@ -1,0 +1,25 @@
+package corsoJava_01;
+
+import java.util.Scanner;
+
+public class NonoEsercizio {
+/* Scrivere un programma chiamato CheckPassFail che stampa
+- Il valore della variabile int “mark”;
+- “PASS" se la variabile int "mark" è superiore o uguale a 50;
+- stampa "FAIL" se la variabile int "mark" è inferiore a 50.
+Il programma deve sempre stampare “DONE” prima di uscire. */
+	public static void main(String[] args) {
+		Scanner in=new Scanner(System.in);
+		System.out.println("inserisci il valore della variabile Mark ");
+		int mark=in.nextInt();
+		in.close();
+		if (mark>=50) {
+			System.out.println("PASS");
+		}
+			else {
+				System.out.println("FAIL");
+		}
+		System.out.println("DONE");
+	}
+
+}
