@@ -1,0 +1,45 @@
+package corsoJava_01;
+
+import java.util.Scanner;
+
+public class DodicesimoEs {
+
+	public static String cane(){
+		System.out.println("il cane è un mammifero");
+		return "BAU";
+	}
+	public static String gatto() {
+		System.out.println("il gatto è un felino");
+		return "MEOW";
+	}
+	public static void pecora() {
+		System.out.println("la pecora è un mammifero e fa BEEEEEEEEEEEEEEH");
+
+	}
+	public static void mucca() {
+		System.out.println("la mucca è un mammifero e fa MUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
+	}
+	public static void main(String[] args) {
+		Scanner in=new Scanner(System.in);
+		System.out.println("pecora,mucca,gatto o pecora?");
+		String input=in.nextLine();
+
+		if(input.equals("cane")) {
+			String versoCane=cane();
+			System.out.println(versoCane);
+		}
+		else if(input.equals("gatto")) {
+			String versoGatto=gatto();
+			System.out.println(versoGatto);
+		}
+		else if(input.equals("mucca")) {
+			mucca();
+		}
+		else if(input.equals("pecora")) {
+			pecora();
+		}
+		else System.out.println("WRONG INPUT");
+		in.close();			
+	}
+
+}
