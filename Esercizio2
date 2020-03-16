@@ -1,0 +1,22 @@
+package corsoJava_01;
+
+import java.util.Scanner;
+
+public class decimoEsercizio {
+	/* Scrivere un programma chiamato CheckOddEven che stampa
+- “Odd Number"; se la variabile int “number” è dispari
+“Even Number”negli altri casi.
+Il programma deve sempre stampare “BYE!” prima di uscire. */
+	public static void main(String[] args) {
+		Scanner in=new Scanner(System.in);
+		int number=in.nextInt();
+		in.close();
+		if(number%2!=0) {
+			System.out.println("odd number");
+		}
+		else
+			System.out.println("Even Number");
+		System.out.println("BYE!");
+	}
+
+}
