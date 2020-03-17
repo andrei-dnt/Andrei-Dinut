@@ -1,0 +1,96 @@
+package corsoJava_01;
+
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
+import java.util.Scanner;
+
+
+public class TredicesimoEsercizio {
+	static ArrayList<Integer> classifica=new ArrayList<Integer>();
+
+
+	public static int accensione(){
+		Random in=new Random();
+		int consumoKmL=in.nextInt(12)+14;
+		int serbatoio=in.nextInt(27)+34;
+		int rifornimentoStart=in.nextInt(42)+9;
+		int pienoSerbatoio=0;
+		int kmDisponibili;
+		if(serbatoio>=rifornimentoStart) {
+			pienoSerbatoio+=rifornimentoStart;
+		}
+		else {
+			pienoSerbatoio=rifornimentoStart-(rifornimentoStart-serbatoio);
+		}
+		System.out.println("il consumo è "+consumoKmL);
+		System.out.println("la capacità del serbatoio è "+serbatoio);
+		System.out.println("il rifornimento allo start è "+rifornimentoStart);
+
+		kmDisponibili=pienoSerbatoio*consumoKmL;
+		classifica.add(kmDisponibili);
+		return kmDisponibili;
+	}
+	
+	public static void tempoPartenza() {
+		DateTimeFormatter df = DateTimeFormatter.ofPattern("HH:mm");
+	    LocalTime lt = LocalTime.parse(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")));
+	    System.out.println("l'auto è partita alle ore "+df.format(lt));
+	}
+	
+	public static void viaggia(int kmDisponibili) {
+		int kmPercorsi=0;
+		for (int i=0;i<kmDisponibili;i++) {
+			kmPercorsi++;
+		}
+		System.out.println("l'auto  ha percorso "+kmPercorsi+" km");
+	}
+
+	public static void main(String[] args) {
+		Scanner in=new Scanner(System.in);
+		System.out.println("quante auto gareggiano ? ");
+		int nAuto=in.nextInt();
+		in.close();
+		for (int x=0;x<nAuto;x++) {
+			System.out.println("	Auto Numero "+ x+1);
+			tempoPartenza();
+			viaggia(accensione());
+	
+			if(classifica.get(x)<200) {
+				int delay=20;
+				 DateTimeFormatter df = DateTimeFormatter.ofPattern("HH:mm");
+				    LocalTime lt = LocalTime.parse(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")));
+				    System.out.println("l'auto è arrivata alle ore "+df.format(lt.plusMinutes(delay)));
+			}
+			else if(classifica.get(x)<400) {
+				int delay=40;
+				 DateTimeFormatter df = DateTimeFormatter.ofPattern("HH:mm");
+				    LocalTime lt = LocalTime.parse(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")));
+				    System.out.println("l'auto è arrivata alle ore "+df.format(lt.plusMinutes(delay)));
+			}
+			else if(classifica.get(x)<600) {
+				int delay=60;
+				 DateTimeFormatter df = DateTimeFormatter.ofPattern("HH:mm");
+				    LocalTime lt = LocalTime.parse(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")));
+				    System.out.println("l'auto è arrivata alle ore "+df.format(lt.plusMinutes(delay)));
+			}
+			else {
+				int delay=90;
+				 DateTimeFormatter df = DateTimeFormatter.ofPattern("HH:mm");
+				    LocalTime lt = LocalTime.parse(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")));
+				    System.out.println("l'auto è arrivata alle ore "+df.format(lt.plusMinutes(delay)));
+			}
+			System.out.println();
+			System.out.println();
+			System.out.println();
+		}
+		int numero=1;
+		Collections.sort(classifica);
+		for(int i=classifica.size()-1;i>=0;i--) {
+			System.out.println(classifica.get(i)+" "+numero+"° classificato");
+			numero++;
+		}
+	}
+}
