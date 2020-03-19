@@ -1,0 +1,52 @@
+	static ArrayList<Double>totaleTasse=new ArrayList<Double>();
+	static double primoScaglione(double importo) {
+		double tax=(importo*10)/100;
+		totaleTasse.add(tax);
+		return tax;
+	}
+	static double secondoScaglione(double importo) {
+		double tax=((importo-10000)*7)/100;
+		totaleTasse.add(tax);
+		tax=primoScaglione(10000)+tax;
+		return tax;
+	}
+	static double terzoScaglione(double importo) {
+		double tax=((importo-20000)*5)/100;
+		totaleTasse.add(tax);
+		tax=secondoScaglione(20000)+tax;
+		return tax;
+	}
+	static double quartoScaglione(double importo) {
+		double tax=((importo-30000)*3)/100;
+		totaleTasse.add(tax);
+		tax=terzoScaglione(30000)+tax;
+		return tax;
+	}
+	public static void main(String[] args) {
+		Scanner in=new Scanner(System.in);
+		System.out.println("quanto è l'importo a cui applicare le tasse? ");
+		double importo=in.nextDouble();
+		in.close();
+		if(importo>30000) {
+			quartoScaglione(importo);
+		}
+		else if(importo>20000) {
+			terzoScaglione(importo);
+		}
+		else if(importo>10000) {
+			secondoScaglione(importo);
+		}
+		else {
+			primoScaglione(importo);
+		}
+		double totale=0;
+		int counter=1;
+		for(int i=totaleTasse.size()-1;i>=0;i--) {
+			double v=totaleTasse.get(i);
+			System.out.println("il "+counter+"° scaglione è  :  "+v);
+			counter++;
+			totale+=v;
+		}
+		System.out.println("il totale delle tasse è "+totale);
+	}
+}
