@@ -1,0 +1,176 @@
+package corsoJava_01;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+
+public class VentunesimoEsPT2 {
+	 private static void writeToFile(java.util.List list, String path) {
+         BufferedWriter out = null;
+         try {
+                 File file = new File(path);
+                 out = new BufferedWriter(new FileWriter(file, true));
+                 for (Object s : list) {
+                         out.write((String)s);
+                         out.newLine();
+
+                 }
+                 out.close();
+         } catch (IOException e) {
+         }
+	 }
+	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+	static final String DB_URL = "jdbc:mysql://localhost/garage?serverTimezone=Europe/Rome"; 
+	static final String USER = "root"; 
+	static final String PASS = ""; 
+	public static void main(String[] args) {
+		Scanner in=new Scanner(System.in);
+		String x;
+		Connection conn = null; 
+		PreparedStatement stmt = null; 
+
+		try{ 
+			//STEP 2: Register JDBC driver 
+			Class.forName("com.mysql.cj.jdbc.Driver"); 
+
+			//STEP 3: Open a connection 
+			System.out.println("Connecting to database..."); 
+			conn = DriverManager.getConnection(DB_URL,USER,PASS); 
+
+			do {
+				System.out.println("insert exit, allCars, carBrand, insertAuto, Export");
+				x=in.nextLine();
+				if(x.equals("allCars")) {
+					String sql; 
+					conn = DriverManager.getConnection(DB_URL,USER,PASS);
+					sql = "SELECT ID, Marca, Modello, Cilindrata, data_immatricolazione, numero_posti FROM automobili"; 
+					stmt = conn.prepareStatement(sql);
+					ResultSet rs = stmt.executeQuery(sql);
+					while(rs.next()){ 
+						//Retrieve by column name 
+						int id  = rs.getInt("ID"); 
+						String marca=rs.getString("Marca");
+						String modello=rs.getString("Modello");
+						float cilindrata=rs.getFloat("Cilindrata");
+						Date immatricolazione=rs.getDate("data_immatricolazione");
+						int numeroPosti=rs.getInt("numero_posti");
+						System.out.println(id);
+						System.out.println(marca);
+						System.out.println(modello);
+						System.out.println(cilindrata);
+						System.out.println(immatricolazione);
+						System.out.println(numeroPosti);
+						System.out.println();
+						System.out.println();
+					}
+				}
+				else if(x.equals("insertAuto")) {
+					String query = "INSERT INTO automobili ( marca, modello, cilindrata, data_immatricolazione, numero_posti) VALUES (?, ?, ?, ?, ?)";
+					stmt = conn.prepareStatement(query);
+					System.out.println("insert the brand of the car");
+					stmt.setString(1, in.nextLine());
+					System.out.println("insert the model of the car");
+					stmt.setString(2, in.nextLine());
+					System.out.println("insert the cilindrata");
+					stmt.setFloat(3, in.nextFloat());
+					System.out.println("insert the registration date (FORMAT 2020-01-02)");
+					in.nextLine();
+					stmt.setString(4, in.nextLine());
+					System.out.println("insert the number of seats");
+					stmt.setInt(5, in.nextInt());
+					stmt.execute();
+				}
+
+
+				else if (x.equals("Export")) {
+					ArrayList data = new ArrayList();
+					File file=new File("c:/windows/temp/samplefile1.txt");
+					file.createNewFile();
+					FileWriter writer=new FileWriter(file);
+					String sql; 
+					conn = DriverManager.getConnection(DB_URL,USER,PASS);
+					sql = "SELECT ID, Marca, Modello, Cilindrata, data_immatricolazione, numero_posti FROM automobili"; 
+					stmt = conn.prepareStatement(sql);
+					ResultSet rs = stmt.executeQuery(sql);
+					while(rs.next()){ 
+						//Retrieve by column name 
+						int id  = rs.getInt("ID"); 
+						String marca=rs.getString("Marca");
+						String modello=rs.getString("Modello");
+						float cilindrata=rs.getFloat("Cilindrata");
+						Date immatricolazione=rs.getDate("data_immatricolazione");
+						int numeroPosti=rs.getInt("numero_posti");
+					data.add(id + " " + marca + " " + modello + " " + cilindrata+" "+immatricolazione+" "+numeroPosti);
+					}
+					writeToFile(data, "C:\\Users\\andre\\Desktop\\automobili.txt");
+					writer.flush(); 
+					writer.close();
+
+				}
+				else if (x.equals("carBrand")) {
+					conn = DriverManager.getConnection(DB_URL,USER,PASS);
+					System.out.println("insert the brand u want so search for");
+					String search=in.nextLine();
+					String query="SELECT * FROM automobili WHERE Marca = ?";
+					stmt = conn.prepareStatement(query);
+					stmt.setString(1, search);
+					//stmt.setString(1, search);
+					ResultSet rs = stmt.executeQuery();
+					
+					while(rs.next()){ 
+						//Retrieve by column name 
+						int id  = rs.getInt("ID"); 
+						String marca=rs.getString("Marca");
+						String modello=rs.getString("Modello");
+						float cilindrata=rs.getFloat("Cilindrata");
+						Date immatricolazione=rs.getDate("data_immatricolazione");
+						int numeroPosti=rs.getInt("numero_posti");
+						System.out.println(id);
+						System.out.println(marca);
+						System.out.println(modello);
+						System.out.println(cilindrata);
+						System.out.println(immatricolazione);
+						System.out.println(numeroPosti);
+						System.out.println();
+						System.out.println();
+					}
+				}
+
+			
+			}while(!(x.equals("exit")));
+			stmt.close(); 
+			conn.close();
+
+		}catch(SQLException se){ 
+			//Handle errors for JDBC 
+			se.printStackTrace(); 
+		}catch(Exception e){ 
+			//Handle errors for Class.forName 
+			e.printStackTrace(); 
+		}finally{ 
+			//finally block used to close resources 
+			try{ 
+				if(stmt!=null) 
+					stmt.close(); 
+			}catch(SQLException se2){ 
+			}// nothing we can do 
+			try{ 
+				if(conn!=null) 
+					conn.close(); 
+			}catch(SQLException se){ 
+				se.printStackTrace(); 
+			}//end finally try 
+		}//end try 
+		System.out.println("Goodbye!"); 
+	}
+}
